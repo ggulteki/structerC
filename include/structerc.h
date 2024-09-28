@@ -11,9 +11,10 @@
 #define STRUCTERC_H
 
 #include <stdint.h>
-#include <stddef.h>
+#include <stddef.h> 
 #include <stdbool.h>
-       
+#include <stdlib.h>
+#include <stdio.h>
 typedef struct {
     // data of the array
     void *data;
@@ -34,7 +35,7 @@ bool contains(const DynamicArray *array, const void *value);
 const void* get(const DynamicArray *array, size_t index);
 bool set(DynamicArray *array, size_t index, const void *value);
 size_t index_of(const DynamicArray *array, const void *value);
-bool grow_size(DynamicArray *array);
+bool grow_size(DynamicArray *array);       
 void destroy_dynamic_array(DynamicArray *array);
 bool resize_dynamic_array(DynamicArray *array, size_t new_size);
 size_t get_dynamic_array_size(const DynamicArray *array);
