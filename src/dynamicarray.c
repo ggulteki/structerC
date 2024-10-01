@@ -1,3 +1,10 @@
+/*
+*   Dynamic array implementation in C
+*   
+*   Author: ggulteki
+* Date: 2024-10-02
+*/
+
 #include "../include/structerc.h"
 
 // Create a dynamic array
@@ -51,6 +58,9 @@ bool add(DynamicArray *array, const void *value) {
         array->size++;
     }
 
+    // Check if the array is too big
+    array_control(array);
+
     return true;
 }
 
@@ -71,5 +81,59 @@ bool grow_size(DynamicArray *array, size_t new_capacity) {
         fprintf(stderr, "Memory allocation for data failed.\n");
         return false;
     }
+
+    return true;
+}
+
+// Free the array
+void free_array(DynamicArray *array) {
+    if (array == NULL) {
+        fprintf(stderr, "No array to free.\n");
+        return;
+    }
+    
+    // Cast the data pointer to a pointer to a pointer to void  
+    void **data_ptr = (void **)array->data;
+
+    // Free the data in the array
+    for (size_t i = 0; i < array->size; i++) {
+        fprintf(stderr, "test %p\n", data_ptr[i]);
+        free(data_ptr[i]);
+    }
+    
+    // Free the array itself 
+    free(array->data);
+    fprintf(stderr, "Freeing %p\n", array->data);
+    // Free the DynamicArray struct
+    free(array);
+    fprintf(stderr, "Freeing %p\n", array);
+
+}
+
+// Check if the array is too big or too small and shrink or grow it
+void array_control(DynamicArray *array) {
+    if (array->size < array->capacity / 4 && array->capacity > 10) {
+        shrink_size(array, array->capacity / 2);
+        fprintf(stderr, "Shrinking array to %zu\n", array->capacity);
+    } else if (array->capacity - array->size < 5) {
+        // Grow the array if the size is less than 5
+        grow_size(array, array->capacity * 1.5);
+        fprintf(stderr, "Growing array to %zu\n", array->capacity);
+    }
+    return;
+}
+
+// Shrink the size of the array
+bool shrink_size(DynamicArray *array, size_t new_capacity) {
+    array->capacity = new_capacity;
+    array->data = realloc(array->data, array->capacity * array->type_size);
+    
+    if (array->data == NULL) {
+        fprintf(stderr, "Memory allocation for data failed.\n");
+        return false;
+    }
+
+    fprintf(stderr, "Shrinking array to %zu\n", array->capacity);
+   
     return true;
 }
