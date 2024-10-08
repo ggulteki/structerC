@@ -1,11 +1,9 @@
 /*
- * structerc.h
- *
- * A simple dynamic array library in C
- *
- * Author: ggulteki
- * Date: $Date$
- */ 
+ * @Author: ggulteki 
+ * @Date: 2024-10-08 20:41:31 
+ * @Last Modified by:   ggulteki 
+ * @Last Modified time: 2024-10-08 20:41:31 
+ */
 
 #ifndef STRUCTERC_H  
 #define STRUCTERC_H
